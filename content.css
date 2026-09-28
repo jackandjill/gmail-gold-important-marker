@@ -1,0 +1,101 @@
+/*
+ * Gmail Gold Important Marker — content.css
+ * =========================================
+ * Purely visual, local, CSS-only recoloring. Every rule here is scoped
+ * under `html.ggim-enabled` (the master on/off switch) and, per feature,
+ * under `.ggim-markers-on` / `.ggim-stars-on`. Turning a toggle off in the
+ * popup removes these classes from <html> immediately, which drops every
+ * rule below with no reload required — Gmail's native styling returns
+ * on its own because nothing here permanently mutates Gmail's own CSS or
+ * markup, only adds classes/attributes owned by this extension.
+ *
+ * SELECTOR LAYER
+ * ---------------
+ * content.js tags the actual Gmail icon elements it finds with two classes:
+ *   .ggim-important-marker  -> the "Important according to Google magic."
+ *                              marker icon
+ *   .ggim-star              -> the "Starred" star icon
+ * and, when it detects the icon is drawn via a background-image (directly
+ * or via a ::before pseudo-element) or an <img>, rather than an inline
+ * SVG or CSS mask, also adds:
+ *   .ggim-use-filter        -> switch to the CSS `filter` fallback (case B)
+ * As verified live 2026-09-28 (see content.js header), both of Gmail's
+ * current icons are Case B — painted as Google-hosted PNG sprites — so
+ * case B is the actively-used path today, not just a rare fallback.
+ *
+ * All extension-owned identifiers use the `ggim-` prefix (Gmail Gold
+ * Important Marker) to avoid ever colliding with Gmail's own class names.
+ *
+ * COLOR SOURCE
+ * ------------
+ * --ggim-gold and --ggim-filter are set on :root (<html>) by content.js
+ * from the user's stored preferences, so changing the color in the popup
+ * re-paints every tagged element immediately without re-injecting CSS.
+ */
+
+:root {
+  --ggim-gold: #f4b400;
+  --ggim-filter: none;
+}
+
+/* -------------------------------------------------------------------- */
+/* Case A: inline SVG (fill/stroke) and CSS mask-image / currentColor   */
+/* icons. This is the preferred, exact-color path and covers the large  */
+/* majority of Gmail's current icon rendering.                          */
+/* -------------------------------------------------------------------- */
+
+html.ggim-enabled.ggim-markers-on .ggim-important-marker:not(.ggim-use-filter),
+html.ggim-enabled.ggim-markers-on .ggim-important-marker:not(.ggim-use-filter) svg,
+html.ggim-enabled.ggim-markers-on .ggim-important-marker:not(.ggim-use-filter) path,
+html.ggim-enabled.ggim-markers-on .ggim-important-marker:not(.ggim-use-filter) use {
+  color: var(--ggim-gold) !important;
+  fill: var(--ggim-gold) !important;
+}
+
+/* CSS mask-image icons: Gmail paints the icon shape as a mask and colors
+   it via background-color. Overriding background-color recolors the
+   shape while the mask (the actual icon artwork) is left untouched. */
+html.ggim-enabled.ggim-markers-on .ggim-important-marker:not(.ggim-use-filter) {
+  background-color: var(--ggim-gold) !important;
+}
+
+html.ggim-enabled.ggim-stars-on .ggim-star:not(.ggim-use-filter),
+html.ggim-enabled.ggim-stars-on .ggim-star:not(.ggim-use-filter) svg,
+html.ggim-enabled.ggim-stars-on .ggim-star:not(.ggim-use-filter) path,
+html.ggim-enabled.ggim-stars-on .ggim-star:not(.ggim-use-filter) use {
+  color: var(--ggim-gold) !important;
+  fill: var(--ggim-gold) !important;
+}
+
+html.ggim-enabled.ggim-stars-on .ggim-star:not(.ggim-use-filter) {
+  background-color: var(--ggim-gold) !important;
+}
+
+/* -------------------------------------------------------------------- */
+/* Case B: background-image sprite fallback. Sprite pixels can't be     */
+/* recolored to an exact hex value with CSS alone, so we approximate    */
+/* the chosen gold using a computed filter() chain (built in content.js)*/
+/* -------------------------------------------------------------------- */
+
+html.ggim-enabled.ggim-markers-on .ggim-important-marker.ggim-use-filter,
+html.ggim-enabled.ggim-stars-on .ggim-star.ggim-use-filter {
+  filter: var(--ggim-filter) !important;
+}
+
+/* -------------------------------------------------------------------- */
+/* Dark theme: Gmail's dark mode already renders these icons with       */
+/* sufficient contrast against the dark background, so no extra dark-   */
+/* mode-specific override is needed — the gold values above already     */
+/* read clearly on both light and dark surfaces. A small brightness     */
+/* nudge keeps the sprite fallback visible on very dark rows.           */
+/* -------------------------------------------------------------------- */
+
+@media (prefers-color-scheme: dark) {
+  html.ggim-enabled.ggim-markers-on .ggim-important-marker.ggim-use-filter,
+  html.ggim-enabled.ggim-stars-on .ggim-star.ggim-use-filter {
+    filter: var(--ggim-filter) brightness(1.08) !important;
+  }
+}
+
+/* Never alter layout, size, spacing, or pointer/tooltip behavior —
+   only color-related properties are touched anywhere in this file. */

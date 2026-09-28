@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Gmail Gold Important Marker</title>
+  <link rel="stylesheet" href="popup.css" />
+</head>
+<body>
+  <main class="ggim-popup">
+    <header class="ggim-header">
+      <img src="icons/icon32.png" alt="" width="24" height="24" class="ggim-logo" />
+      <h1>Gmail Gold Marker</h1>
+    </header>
+
+    <section class="ggim-row ggim-row-master">
+      <label class="ggim-switch-label" for="ggim-enabled">
+        <span>Enable Gmail gold marker theme</span>
+        <span class="ggim-switch">
+          <input type="checkbox" id="ggim-enabled" />
+          <span class="ggim-switch-track" aria-hidden="true"></span>
+        </span>
+      </label>
+    </section>
+
+    <section class="ggim-group" id="ggim-subgroup">
+      <div class="ggim-row">
+        <label class="ggim-switch-label" for="ggim-markers">
+          <span>Recolor Important markers</span>
+          <span class="ggim-switch">
+            <input type="checkbox" id="ggim-markers" />
+            <span class="ggim-switch-track" aria-hidden="true"></span>
+          </span>
+        </label>
+      </div>
+
+      <div class="ggim-row">
+        <label class="ggim-switch-label" for="ggim-stars">
+          <span>Recolor Stars</span>
+          <span class="ggim-switch">
+            <input type="checkbox" id="ggim-stars" />
+            <span class="ggim-switch-track" aria-hidden="true"></span>
+          </span>
+        </label>
+      </div>
+
+      <div class="ggim-row ggim-color-row">
+        <label for="ggim-color-picker">Gold color</label>
+        <div class="ggim-color-controls">
+          <input
+            type="color"
+            id="ggim-color-picker"
+            value="#f4b400"
+            aria-label="Pick gold color"
+          />
+          <input
+            type="text"
+            id="ggim-color-hex"
+            value="#f4b400"
+            maxlength="7"
+            inputmode="text"
+            autocomplete="off"
+            spellcheck="false"
+            aria-label="Gold color hex value"
+          />
+        </div>
+        <p class="ggim-hint" id="ggim-color-error" role="status" aria-live="polite"></p>
+      </div>
+    </section>
+
+    <button type="button" id="ggim-reset" class="ggim-reset-btn">Reset defaults</button>
+
+    <p class="ggim-disclosure">
+      Works only on <strong>mail.google.com</strong>. No email data is
+      collected or sent.
+    </p>
+
+    <p class="ggim-status" id="ggim-status" role="status" aria-live="polite"></p>
+  </main>
+
+  <script src="popup.js"></script>
+</body>
+</html>

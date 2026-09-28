@@ -1,0 +1,233 @@
+/* Gmail Gold Important Marker — popup.css
+ * All selectors are prefixed with `ggim-` to stay self-contained. */
+
+:root {
+  --ggim-gold: #f4b400;
+  --ggim-bg: #ffffff;
+  --ggim-fg: #1f1f1f;
+  --ggim-muted: #5f6368;
+  --ggim-border: #dcdcdc;
+  --ggim-track-off: #c7c7c7;
+  --ggim-focus: #1a73e8;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --ggim-bg: #202124;
+    --ggim-fg: #e8eaed;
+    --ggim-muted: #9aa0a6;
+    --ggim-border: #3c4043;
+    --ggim-track-off: #5f6368;
+    --ggim-focus: #8ab4f8;
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  width: 320px;
+  background: var(--ggim-bg);
+  color: var(--ggim-fg);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+  font-size: 13px;
+}
+
+.ggim-popup {
+  padding: 16px;
+}
+
+.ggim-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.ggim-header h1 {
+  font-size: 15px;
+  font-weight: 600;
+  margin: 0;
+}
+
+.ggim-logo {
+  border-radius: 6px;
+  display: block;
+}
+
+.ggim-row {
+  padding: 10px 0;
+  border-bottom: 1px solid var(--ggim-border);
+}
+
+.ggim-row-master {
+  padding-top: 0;
+}
+
+.ggim-group {
+  transition: opacity 0.15s ease;
+}
+
+.ggim-group[data-disabled="true"] {
+  opacity: 0.5;
+}
+
+.ggim-group .ggim-row:last-child {
+  border-bottom: none;
+}
+
+.ggim-switch-label {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  cursor: pointer;
+}
+
+.ggim-switch {
+  position: relative;
+  display: inline-flex;
+  width: 36px;
+  height: 20px;
+  flex: 0 0 auto;
+}
+
+.ggim-switch input {
+  position: absolute;
+  inset: 0;
+  margin: 0;
+  opacity: 0;
+  cursor: pointer;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+.ggim-switch-track {
+  position: absolute;
+  inset: 0;
+  background: var(--ggim-track-off);
+  border-radius: 999px;
+  transition: background-color 0.15s ease;
+}
+
+.ggim-switch-track::after {
+  content: "";
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #ffffff;
+  transition: transform 0.15s ease;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.ggim-switch input:checked + .ggim-switch-track {
+  background: var(--ggim-gold);
+}
+
+.ggim-switch input:checked + .ggim-switch-track::after {
+  transform: translateX(16px);
+}
+
+.ggim-switch input:focus-visible + .ggim-switch-track {
+  outline: 2px solid var(--ggim-focus);
+  outline-offset: 2px;
+}
+
+.ggim-switch-label:has(input:disabled) {
+  cursor: not-allowed;
+}
+
+.ggim-color-row {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.ggim-color-row > label {
+  font-weight: 500;
+}
+
+.ggim-color-controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+#ggim-color-picker {
+  width: 36px;
+  height: 28px;
+  padding: 0;
+  border: 1px solid var(--ggim-border);
+  border-radius: 6px;
+  background: none;
+  cursor: pointer;
+}
+
+#ggim-color-picker:focus-visible,
+#ggim-color-hex:focus-visible,
+.ggim-reset-btn:focus-visible {
+  outline: 2px solid var(--ggim-focus);
+  outline-offset: 2px;
+}
+
+#ggim-color-hex {
+  flex: 1;
+  min-width: 0;
+  padding: 6px 8px;
+  border: 1px solid var(--ggim-border);
+  border-radius: 6px;
+  background: var(--ggim-bg);
+  color: var(--ggim-fg);
+  font-family: "SFMono-Regular", Consolas, Menlo, monospace;
+  font-size: 13px;
+}
+
+.ggim-hint {
+  margin: 0;
+  min-height: 14px;
+  font-size: 11px;
+  color: #c5221f;
+}
+
+@media (prefers-color-scheme: dark) {
+  .ggim-hint {
+    color: #f28b82;
+  }
+}
+
+.ggim-reset-btn {
+  margin-top: 14px;
+  width: 100%;
+  padding: 8px 10px;
+  border: 1px solid var(--ggim-border);
+  border-radius: 6px;
+  background: transparent;
+  color: var(--ggim-fg);
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.ggim-reset-btn:hover {
+  background: rgba(128, 128, 128, 0.12);
+}
+
+.ggim-disclosure {
+  margin: 14px 0 0;
+  font-size: 11px;
+  line-height: 1.5;
+  color: var(--ggim-muted);
+}
+
+.ggim-status {
+  margin: 6px 0 0;
+  min-height: 14px;
+  font-size: 11px;
+  color: var(--ggim-muted);
+}

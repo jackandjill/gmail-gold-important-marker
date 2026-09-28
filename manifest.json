@@ -1,0 +1,36 @@
+{
+  "manifest_version": 3,
+  "name": "Gmail Gold Important Marker",
+  "short_name": "Gmail Gold Marker",
+  "description": "Restores a gold/yellow color to Gmail's blue Important marker (and optionally the star). Local visual-only tweak — no email data is read, stored, or sent.",
+  "version": "1.0.0",
+  "version_name": "1.0.0",
+  "minimum_chrome_version": "110",
+  "icons": {
+    "16": "icons/icon16.png",
+    "32": "icons/icon32.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "Gmail Gold Important Marker",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "32": "icons/icon32.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    }
+  },
+  "permissions": ["storage"],
+  "host_permissions": ["https://mail.google.com/*"],
+  "content_scripts": [
+    {
+      "matches": ["https://mail.google.com/*"],
+      "css": ["content.css"],
+      "js": ["content.js"],
+      "run_at": "document_idle",
+      "all_frames": false
+    }
+  ]
+}
